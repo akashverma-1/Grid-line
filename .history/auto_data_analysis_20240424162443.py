@@ -1,5 +1,5 @@
 import pandas as pd
-import numpy as np
+
 
 def data_analysis(csv_file_path):
     df = pd.read_csv(csv_file_path)

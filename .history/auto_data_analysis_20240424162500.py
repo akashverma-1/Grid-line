@@ -29,4 +29,5 @@ def data_analysis(csv_file_path):
         'numerical_columns': df.select_dtypes(include=['number']).columns.tolist()
     }
     
+    # per
     return analysis_results

@@ -13,12 +13,7 @@ def index():
 @app.route('/data/analysis', methods=['GET', 'POST'])
 def data_analysis_automation():
     if request.method == 'POST':
-        file = request.files['file']
-        if file:
-            filename = secure_filename(file.filename)
-            file.save(os.path.join('static/uploads', filename))
-            results = data_analysis('/static/uploads/' + filename)
-            return render_template('data_analysis.html', results=results)
+        file = 
     return render_template('Data_analysis.html')
 
 @app.route('/scraper/automation', methods=['GET', 'POST'])

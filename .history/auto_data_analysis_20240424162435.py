@@ -1,7 +1,4 @@
-import pandas as pd
-import numpy as np
-
-def data_analysis(csv_file_path):
+def data_analysis(path):
     df = pd.read_csv(csv_file_path)
     
     # Initialize an empty dictionary to store the results

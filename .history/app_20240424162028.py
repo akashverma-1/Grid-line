@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request, redirect
 from auto_data_analysis import *
 from werkzeug.utils import secure_filename
-import os
 
 app = Flask(__name__)
  
@@ -12,13 +11,7 @@ def index():
 
 @app.route('/data/analysis', methods=['GET', 'POST'])
 def data_analysis_automation():
-    if request.method == 'POST':
-        file = request.files['file']
-        if file:
-            filename = secure_filename(file.filename)
-            file.save(os.path.join('static/uploads', filename))
-            results = data_analysis('/static/uploads/' + filename)
-            return render_template('data_analysis.html', results=results)
+
     return render_template('Data_analysis.html')
 
 @app.route('/scraper/automation', methods=['GET', 'POST'])

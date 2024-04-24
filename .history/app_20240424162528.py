@@ -18,7 +18,7 @@ def data_analysis_automation():
             filename = secure_filename(file.filename)
             file.save(os.path.join('static/uploads', filename))
             results = data_analysis('/static/uploads/' + filename)
-            return render_template('data_analysis.html', results=results)
+            
     return render_template('Data_analysis.html')
 
 @app.route('/scraper/automation', methods=['GET', 'POST'])
