@@ -1,7 +1,8 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, send_file
 from auto_data_analysis import *
 from werkzeug.utils import secure_filename
 from auto_scraper_automation import *
+from auto_data_cleaning import *
 import os
 
 app = Flask(__name__)
@@ -46,7 +47,33 @@ def scraper_automation():
 def data_cleaning_automation():
     if request.method == 'POST':
         print(request.form)
-    return render_template('data_analysis.html')
+        files = request.files.getlist('files')
+        tasks = request.form.getlist('task')
+        tasks = [int(task) for task in tasks] # Convert to integer
+        uploads = []
+        print(f'uploaded files: {files}')
+        for file in files:
+            if file.filename:
+                filename = secure_filename(file.filename)
+                file.save(os.path.join('static/uploads', filename))
+                uploads.append(f'static/uploads/{filename}')
+                print(f'File saved: {filename}')
+            else:
+                print(f'skip {file.filename}') 
+        results = automate_cleaning(uploads, tasks)
+        df_tables = []
+        for idx,result in enumerate(results):
+            df = pd.read_csv(result, nrows=30)
+            df_tables.append({
+                'filename': os.path.basename(result),
+                'table': df.to_html(classes='table table-bordered table-striped table-hover'),
+                'path': result,
+                'id': idx,
+            })
+
+        return render_template('data_cleaning.html', df_tables=df_tables)
+                
+    return render_template('data_cleaning.html')
 
 @app.route('/database/maintenance/automation', methods=['GET', 'POST'])
 def database_maintenance_automation():
@@ -92,6 +119,12 @@ def text_processing():
 @app.route('/web/testing', methods=['GET', 'POST'])
 def web_testing():
         return render_template('web_testing.html')
+
+# link would be like 
+@app.route('/download/<path:filename>', methods=['GET', 'POST'])
+def download(filename):
+    path = os.path.join('static/cleaned_data', filename)
+    return send_file(path, as_attachment=True)
 
 
 

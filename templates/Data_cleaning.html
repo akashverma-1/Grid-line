@@ -18,6 +18,17 @@
         integrity="sha512-naukR7I+Nk6gp7p5TMA4ycgfxaZBJ7MO5iC3Fp6ySQyKFHOGfpkSZkYVWV5R7u7cfAicxanwYQ5D1e17EfJcMA=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
+    <!-- FontAwesome 6.2.0 CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+        integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- (Optional) Use CSS or JS implementation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/js/all.min.js"
+        integrity="sha512-naukR7I+Nk6gp7p5TMA4ycgfxaZBJ7MO5iC3Fp6ySQyKFHOGfpkSZkYVWV5R7u7cfAicxanwYQ5D1e17EfJcMA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
     <style>
         @import "https://fonts.googleapis.com/css?family=Roboto";
 
@@ -125,80 +136,81 @@
 <body>
     <div class="container">
         <div class="row my-5">
+            <div class="text-center">
+                <a href="/" class="btn btn-danger">Back to home</a>
+            </div>
             <h3 class="text-center">Data Cleaning Automation</h3>
             <div class="col-md-8 mx-auto">
-                <form method="POST" action="">
+                <form method="POST" action="" enctype="multipart/form-data">
                     <div class="container">
                         <div id="app">
                             <step-navigation :steps="steps" :currentstep="currentstep">
                             </step-navigation>
-            
+
                             <div v-show="currentstep == 1">
                                 <h3>Step 1</h3>
-                                <div class="form-group">
-                                    <label for="title">Scraping task title</label>
-                                    <input type="text" name="title" class="form-control" aria-describedby="titleHelp"
-                                        placeholder="Enter task title">
-                                    <small id="titleHelp" class="form-text text-muted">We'll never share your email with anyone
-                                        else.</small>
+                                <div class="mb-3">
+                                    <label for="files" class="form-label">Browse and select datasets</label>
+                                    <input type="file" class="form-control form-control-lg" name="files" id="files"
+                                        placeholder="csv files" multiple aria-describedby="fileHelpId" accept=".csv">
+                                    <div id="fileHelpId" class="form-text">Only .csv files are allowed</div>
                                 </div>
-                                <div class="form-group">
-                                    <label for="desc">Add task description (optional)</label>
-                                    <div class="mb-3">
-                                        <label for="desc" class="form-label">Description</label>
-                                        <textarea class="form-control" name="desc" id="desc" rows="3"></textarea>
-                                    </div>
-                                    
-                                </div>
+
+
                             </div>
-            
+
                             <div v-show="currentstep == 2">
                                 <h3>Step 2</h3>
-                                <div class="form-group">
-                                    <label for="select">Select a scraper</label>
-                                    <select class="form-control" name="select">
-                                        <option>Single Page Scraper</option>
-                                        <option>Link Extractor</option>
-                                        <option>Multipage Scraper</option>
-                                    </select>
+                                <!-- checkbox -->
+                                <div class="list-group">
+                                    <label class="list-group-item">
+                                        <input class="form-check-input me-1" type="checkbox" value="1" name="task"
+                                            checked />
+                                        Fill missing values in columns
+                                    </label>
+                                    <label class="list-group-item">
+                                        <input class="form-check-input me-1" type="checkbox" value="2" name="task"
+                                            checked />
+                                        Normalize data
+                                    </label>
+                                    <label class="list-group-item">
+                                        <input class="form-check-input me-1" type="checkbox" value="3" name="task"
+                                            checked />
+                                        Remove duplicates
+                                    </label>
+                                    <label class="list-group-item">
+                                        <input class="form-check-input me-1" type="checkbox" value="4" name="task"
+                                            checked />
+                                        Encode categorical data to numerical
+                                    </label>
                                 </div>
+
+
                             </div>
-            
+
                             <div v-show="currentstep == 3">
                                 <h3>Step 3</h3>
-                                <div class="form-group">
-                                    <label for="target">Target</label>
-                                    <input class="form-control" name="target" ></textarea>
-                                </div>
-                                <div class="form-group">
-                                    <label for="target">Repeating Items</label>
-                                    <input class="form-control" name="target" ></textarea>
-                                </div>
-                                <div class="form-group">
-                                    <label for="target">Content</label>
-                                    <input class="form-control" name="target" ></textarea>
-                                </div>
-                                
+                                <p class="lead">Click on the execute button below</p>
                             </div>
-            
+
                             <step v-for="step in steps" :currentstep="currentstep" :key="step.id" :step="step"
                                 :stepcount="steps.length" @step-change="stepChanged">
                             </step>
-            
+
                             <script type="x-template" id="step-navigation-template">
                                 <ol class="step-indicator">
                                     <li v-for="step in steps" is="step-navigation-step" :key="step.id" :step="step" :currentstep="currentstep">
                                     </li>
                                 </ol>
                             </script>
-            
+
                             <script type="x-template" id="step-navigation-step-template">
                                 <li :class="indicatorclass">
                                     <div class="step"><i :class="step.icon_class"></i></div>
                                     <div class="caption hidden-xs hidden-sm">Step <span v-text="step.id"></span>: <span v-text="step.title"></span></div>
                                 </li>
                             </script>
-            
+
                             <script type="x-template" id="step-template">
                                 <div class="step-wrapper" :class="stepWrapperClass">
                                     <button type="button" class="btn btn-primary" @click="lastStep" :disabled="firststep">
@@ -207,8 +219,8 @@
                                     <button type="button" class="btn btn-primary" @click="nextStep" :disabled="laststep">
                                         Next
                                     </button>
-                                    <button type="submit" class="btn btn-primary" v-if="laststep">
-                                        Automate
+                                    <button type="submit" class="btn btn-success" v-if="laststep">
+                                        Execute
                                     </button>
                                 </div>
                             </script>
@@ -216,6 +228,45 @@
                     </div>
                 </form>
             </div>
+
+            {% if df_tables %}
+
+
+            <div class="col-md-8 mx-auto">
+                <div class="text-center">
+                    <h3>Preview of the cleaned data</h3>
+                </div>
+                {% for item in df_tables %}
+                <div class="accordion mb-3" id="accordionExample">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingOne{{item.id}}">
+                            <button class="accordion-button fw-bolder" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseOne{{item.id}}" aria-expanded="false"
+                                aria-controls="collapseOne{{item.id}}">
+                                {{item.filename}}
+                            </button>
+                        </h2>
+                        <div id="collapseOne{{item.id}}" class="accordion-collapse collapse hide"
+                            aria-labelledby="headingOne{{item.id}}" data-bs-parent="#accordionExample">
+                            <div class="accordion-body table-responsive">
+                                <div class="text-center">
+                                    <a class="btn btn-outline-danger mb-3" href="/download/{{item.filename}}">
+                                        <i class="fas fa-download"></i>
+                                        Download cleaned data
+                                    </a>
+                                </div>
+                                {{item.table|safe}}
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+            {% endif %}
+
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
@@ -292,17 +343,17 @@
                 steps: [
                     {
                         id: 1,
-                        title: "Automation",
+                        title: "Upload files",
                         icon_class: "fa fa-user-circle"
                     },
                     {
                         id: 2,
-                        title: "Choose",
+                        title: "Choose Cleaning Options",
                         icon_class: "fa fa-th-list"
                     },
                     {
                         id: 3,
-                        title: "Configure & Finish",
+                        title: "Execute Cleaning",
                         icon_class: "fa fa-paper-plane"
                     }
                 ]
