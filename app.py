@@ -13,13 +13,16 @@ def index():
 @app.route('/data/analysis', methods=['GET', 'POST'])
 def data_analysis_automation():
     if request.method == 'POST':
-        file = request.files['file']
-        if file:
-            filename = secure_filename(file.filename)
-            file.save(os.path.join('static/uploads', filename))
-            results = data_analysis('/static/uploads/' + filename)
-            return render_template('data_analysis.html', results=results)
-    return render_template('Data_analysis.html')
+        files = request.files.getlist('files')
+        print(files)
+        for file in files:
+            if file:
+                filename = secure_filename(file.filename)
+                file.save(os.path.join('static/uploads', filename))
+                print(f'File saved: {filename}')
+        results = launch_data_analysis([f'static/uploads/{file.filename}' for file in files])
+        return render_template('data_analysis.html', results=results)
+    return render_template('data_analysis.html')
 
 @app.route('/scraper/automation', methods=['GET', 'POST'])
 def scraper_automation():

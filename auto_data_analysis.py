@@ -8,7 +8,7 @@ def data_analysis(csv_file_path):
     analysis_results = {}
     
     # Basic statistics
-    analysis_results['basic_statistics'] = df.describe().to_dict()
+    # analysis_results['basic_statistics'] = df.describe().to_dict()
     
     # Exploratory Data Analysis (EDA)
     analysis_results['eda'] = {
@@ -30,3 +30,9 @@ def data_analysis(csv_file_path):
     }
     
     return analysis_results
+
+def launch_data_analysis(file_paths):
+    results = []
+    for file in file_paths:
+        results.append(data_analysis(file))
+    return results

@@ -130,13 +130,25 @@
                 <form method="POST" action="" enctype="multipart/form-data">
                     <!-- upload -->
                     <div class="mb-3">
-                        <label for="file" class="form-label">Upload dataset</label>
-                        <input type="file" class="form-control" name="file" id="file" placeholder="file here"
-                            aria-describedby="fileHelp"  accept=".csv">
+                        <label for="file" class="form-label">Upload datasets</label>
+                        <input type="file" class="form-control" name="files" id="file" placeholder="file here"
+                            aria-describedby="fileHelp" accept=".csv" multiple>
                         <div id="fileHelp" class="form-text">CSV files only</div>
                     </div>
-                    <button>Automate Analysis</button>
+                    <button class="btn btn-primary">Automate Analysis</button>
                 </form>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+
+                {% for item in results %}
+
+
+                {% endfor %}
+
             </div>
         </div>
     </div>
@@ -147,97 +159,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
         integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
         crossorigin="anonymous"></script>
-    <script>
-        Vue.component("step-navigation-step", {
-            template: "#step-navigation-step-template",
 
-            props: ["step", "currentstep"],
-
-            computed: {
-                indicatorclass() {
-                    return {
-                        active: this.step.id == this.currentstep,
-                        complete: this.currentstep > this.step.id
-                    };
-                }
-            }
-        });
-
-        Vue.component("step-navigation", {
-            template: "#step-navigation-template",
-
-            props: ["steps", "currentstep"]
-        });
-
-        Vue.component("step", {
-            template: "#step-template",
-
-            props: ["step", "stepcount", "currentstep"],
-
-            computed: {
-                active() {
-                    return this.step.id == this.currentstep;
-                },
-
-                firststep() {
-                    return this.currentstep == 1;
-                },
-
-                laststep() {
-                    return this.currentstep == this.stepcount;
-                },
-
-                stepWrapperClass() {
-                    return {
-                        active: this.active
-                    };
-                }
-            },
-
-            methods: {
-                nextStep() {
-                    this.$emit("step-change", this.currentstep + 1);
-                },
-
-                lastStep() {
-                    this.$emit("step-change", this.currentstep - 1);
-                }
-            }
-        });
-
-        new Vue({
-            el: "#app",
-
-            data: {
-                currentstep: 1,
-
-                steps: [
-                    {
-                        id: 1,
-                        title: "Automation",
-                        icon_class: "fa fa-user-circle"
-                    },
-                    {
-                        id: 2,
-                        title: "Choose",
-                        icon_class: "fa fa-th-list"
-                    },
-                    {
-                        id: 3,
-                        title: "Configure & Finish",
-                        icon_class: "fa fa-paper-plane"
-                    }
-                ]
-            },
-
-            methods: {
-                stepChanged(step) {
-                    this.currentstep = step;
-                }
-            }
-        });
-
-    </script>
 </body>
 
 </html>
