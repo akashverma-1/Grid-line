@@ -17,6 +17,15 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/js/all.min.js"
         integrity="sha512-naukR7I+Nk6gp7p5TMA4ycgfxaZBJ7MO5iC3Fp6ySQyKFHOGfpkSZkYVWV5R7u7cfAicxanwYQ5D1e17EfJcMA=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- FontAwesome 6.2.0 CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+        integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- (Optional) Use CSS or JS implementation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/js/all.min.js"
+        integrity="sha512-naukR7I+Nk6gp7p5TMA4ycgfxaZBJ7MO5iC3Fp6ySQyKFHOGfpkSZkYVWV5R7u7cfAicxanwYQ5D1e17EfJcMA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <style>
         @import "https://fonts.googleapis.com/css?family=Roboto";
@@ -119,12 +128,20 @@
             color: #ccc;
             padding: 11px 16px;
         }
+
+        .bg-offwhite {
+            background-color: #ededed;
+        }
     </style>
 </head>
 
 <body>
     <div class="container">
         <div class="row my-5">
+            <!-- back -->
+            <div class="text-center">
+                <a href="/" class="btn btn-danger">Back to home</a>
+            </div>
             <h3 class="text-center">Data Scraping Automation</h3>
             <div class="col-md-8 mx-auto">
                 <form method="POST" action="">
@@ -132,73 +149,56 @@
                         <div id="app">
                             <step-navigation :steps="steps" :currentstep="currentstep">
                             </step-navigation>
-            
+
                             <div v-show="currentstep == 1">
                                 <h3>Step 1</h3>
+
                                 <div class="form-group">
-                                    <label for="title">Scarper</label>
-                                    <input type="text" name="title" class="form-control" aria-describedby="titleHelp"
-                                        placeholder="Enter task title">
-                                    <small id="titleHelp" class="form-text text-muted">We'll never share your email with anyone
-                                        else.</small>
-                                </div>
-                                <div class="form-group">
-                                    <label for="desc">Add task description (optional)</label>
+                                    <label for="desc">
+                                        Enter website urls per line to scrape links
+                                    </label>
                                     <div class="mb-3">
                                         <label for="desc" class="form-label">Description</label>
-                                        <textarea class="form-control" name="desc" id="desc" rows="3"></textarea>
+                                        <textarea class="form-control" name="desc" id="desc" rows="5"
+                                            placeholder="https://bbdu.ac.in"></textarea>
                                     </div>
-                                    
+
                                 </div>
                             </div>
-            
+
                             <div v-show="currentstep == 2">
                                 <h3>Step 2</h3>
                                 <div class="form-group">
                                     <label for="select">Select a scraper</label>
-                                    <select class="form-control" name="select">
+                                    <select class="form-select" name="select">
                                         <option>Single Page Scraper</option>
                                         <option>Link Extractor</option>
-                                        <option>Multipage Scraper</option>
                                     </select>
                                 </div>
                             </div>
-            
+
                             <div v-show="currentstep == 3">
-                                <h3>Step 3</h3>
-                                <div class="form-group">
-                                    <label for="target">Target</label>
-                                    <input class="form-control" name="target" ></textarea>
-                                </div>
-                                <div class="form-group">
-                                    <label for="target">Repeating Items</label>
-                                    <input class="form-control" name="target" ></textarea>
-                                </div>
-                                <div class="form-group">
-                                    <label for="target">Content</label>
-                                    <input class="form-control" name="target" ></textarea>
-                                </div>
-                                
+                                <h3>Finish</h3>
                             </div>
-            
+
                             <step v-for="step in steps" :currentstep="currentstep" :key="step.id" :step="step"
                                 :stepcount="steps.length" @step-change="stepChanged">
                             </step>
-            
+
                             <script type="x-template" id="step-navigation-template">
                                 <ol class="step-indicator">
                                     <li v-for="step in steps" is="step-navigation-step" :key="step.id" :step="step" :currentstep="currentstep">
                                     </li>
                                 </ol>
                             </script>
-            
+
                             <script type="x-template" id="step-navigation-step-template">
                                 <li :class="indicatorclass">
                                     <div class="step"><i :class="step.icon_class"></i></div>
                                     <div class="caption hidden-xs hidden-sm">Step <span v-text="step.id"></span>: <span v-text="step.title"></span></div>
                                 </li>
                             </script>
-            
+
                             <script type="x-template" id="step-template">
                                 <div class="step-wrapper" :class="stepWrapperClass">
                                     <button type="button" class="btn btn-primary" @click="lastStep" :disabled="firststep">
@@ -207,7 +207,7 @@
                                     <button type="button" class="btn btn-primary" @click="nextStep" :disabled="laststep">
                                         Next
                                     </button>
-                                    <button type="submit" class="btn btn-primary" v-if="laststep">
+                                    <button type="submit" class="btn btn-danger automate" v-if="laststep">
                                         Automate
                                     </button>
                                 </div>
@@ -216,7 +216,81 @@
                     </div>
                 </form>
             </div>
+            <div class="col-md-8 mx-auto bg-offwhite py-5 rounded-3">
+
+                {% if results %}
+
+                {% if type =='1' %}
+                <div class="header text-center my-2">
+                    <h3>Results</h3>
+                </div>
+                <div class="accordion accordion-flush" id="accordionFlushExample">
+                    {% for item in results %}
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="flush_{{item.idx}}">
+                            <button class="accordion-button collapsed rounded-3 " type="button"
+                                data-bs-toggle="collapse" data-bs-target="#content_{{item.idx}}" aria-expanded="true"
+                                aria-controls="content_{{item.idx}}">
+                                <i class="fa fa-globe"></i>
+                                &nbsp;
+                                <a href="{{ item.url }}" class="card-link text-decoration-none fw-bolder">{{ item.url
+                                    }}</a>
+                            </button>
+                        </h2>
+                        <div id="content_{{item.idx}}" class="accordion-collapse collapse"
+                            aria-labelledby="flush_{{item.idx}}" data-bs-parent="#accordionFlushExample">
+                            <div class="accordion-body">
+                                <!-- download text-->
+                                <button class="btn btn-primary download">
+                                    Download <i class="fa fa-download"></i>
+                                </button>
+                                <p class="fs-7 content">
+                                    {{ item.content }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% elif type =='2' %}
+                <h3 class="heading text-center fw-italic">
+                    Collected Links
+                </h3>
+                <div class="d-flex flex-column flex-md-row p-4 gap-4 py-md-5 align-items-center justify-content-center">
+                    <div class="list-group w-100">
+                        {% for item in results %}
+                        <a href="{{item.href}}" class="list-group-item list-group-item-action d-flex gap-3 py-3"
+                            target="_blank" aria-current="true" title="{{item.website}}">
+                            <i class="fa fa-globe fa-2x text-success"></i>
+                            <div class="d-flex gap-2 w-100 justify-content-between">
+                                <div>
+                                    <h6 class="mb-0  overflow-hidden fw-bold">
+
+                                        {% if item.text %}
+                                        {{item.text|truncate(50)}}
+                                        {% else %}
+                                        Hidden Link
+                                        {% endif %}
+
+                                    </h6>
+                                    <p class="mb-0 opacity-75 overflow-auto">{{item.href|truncate(75)}}</p>
+                                </div>
+                                <small class="opacity-50 text-nowrap">
+                                    <i class="fa fa-external-link"></i>
+                                </small>
+                            </div>
+                        </a>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
+                {% endif %}
+            </div>
         </div>
+    </div>
+
+
     </div>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
         integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
@@ -292,7 +366,7 @@
                 steps: [
                     {
                         id: 1,
-                        title: "Automation",
+                        title: "Add urls",
                         icon_class: "fa fa-user-circle"
                     },
                     {
@@ -314,8 +388,26 @@
                 }
             }
         });
-
+        // download text as file
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('.download').forEach(function (item) {
+                item.addEventListener('click', function () {
+                    // get content of the sibling p.content
+                    var text = this.nextElementSibling.textContent;
+                    var filename = 'text.txt';
+                    var blob = new Blob([text], {
+                        type: 'text/plain'
+                    });
+                    var a = document.createElement('a');
+                    a.download = filename;
+                    a.href = window.URL.createObjectURL(blob);
+                    a.dataset.downloadurl = ['text/plain', a.download, a.href].join(':');
+                    a.click();
+                });
+            });
+        });
     </script>
+
 </body>
 
 </html>

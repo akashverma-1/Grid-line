@@ -1,38 +1,35 @@
 import pandas as pd
-import numpy as np
+from ydata_profiling import ProfileReport
+import os
+def automate_analysis(filepath):
+    df = pd.read_csv(filepath)
+    profile = ProfileReport(df, explorative=True, 
+                            minimal=True,
+                            dark_mode=True, 
+                            title=f'{filepath.split("/")[-1].split(".")[0]} Summary',
+                            html = {
+                                'navbar_show':False
+                            })
+    os.makedirs('static/reports', exist_ok=True)
+    save_path = f'static/reports/{filepath.split("/")[-1].split(".")[0]}_report.html'
+    profile.to_file(save_path)
+    return save_path
 
-def data_analysis(csv_file_path):
-    df = pd.read_csv(csv_file_path)
-    
-    # Initialize an empty dictionary to store the results
-    analysis_results = {}
-    
-    # Basic statistics
-    # analysis_results['basic_statistics'] = df.describe().to_dict()
-    
-    # Exploratory Data Analysis (EDA)
-    analysis_results['eda'] = {
-        'data_types': df.dtypes.to_dict(),
-        'null_counts': df.isnull().sum().to_dict(),
-        'unique_counts': df.nunique().to_dict(),
-        'first_five_rows': df.head().to_dict(orient='records')
-    }
-    
-    # Correlation
-    correlation_matrix = df.corr().to_dict()
-    analysis_results['correlation'] = correlation_matrix
-    
-    # Columns
-    analysis_results['columns'] = {
-        'all_columns': df.columns.tolist(),
-        'categorical_columns': df.select_dtypes(include=['object']).columns.tolist(),
-        'numerical_columns': df.select_dtypes(include=['number']).columns.tolist()
-    }
-    
-    return analysis_results
 
 def launch_data_analysis(file_paths):
     results = []
     for file in file_paths:
-        results.append(data_analysis(file))
+        results.append({
+            'file': file,
+            'report': automate_analysis(file)
+        })
     return results
+
+
+if __name__ == '__main__':
+    print(launch_data_analysis([r'static\uploads\links.csv']))
+
+
+
+
+

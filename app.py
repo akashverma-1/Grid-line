@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect
 from auto_data_analysis import *
 from werkzeug.utils import secure_filename
+from auto_scraper_automation import *
 import os
 
 app = Flask(__name__)
@@ -20,14 +21,25 @@ def data_analysis_automation():
                 filename = secure_filename(file.filename)
                 file.save(os.path.join('static/uploads', filename))
                 print(f'File saved: {filename}')
+        
         results = launch_data_analysis([f'static/uploads/{file.filename}' for file in files])
-        return render_template('data_analysis.html', results=results)
+        base_url = 'http://127.0.0.1:8000/'
+        return render_template('data_analysis_results.html', results=results, base_url=base_url)
     return render_template('data_analysis.html')
 
 @app.route('/scraper/automation', methods=['GET', 'POST'])
 def scraper_automation():
     if request.method == 'POST':
         print(request.form)
+        websites = request.form['desc'].splitlines()
+        selection = request.form['select']
+        if selection == 'Single Page Scraper':
+            results = single_page_scraper(websites)
+
+            return render_template('scraper_automation.html', results=results, type='1')
+        elif selection == 'Link Extractor':
+            results = link_extractor(websites)
+            return render_template('scraper_automation.html', results=results, type='2')
     return render_template('scraper_automation.html')
 
 @app.route('/data/cleaning/automation', methods=['GET', 'POST'])
