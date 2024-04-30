@@ -5,12 +5,13 @@ import shutil
 # Automate tasks like image resizing and filtering for all the images uploaded  and save them in a zip file for download
 
 def resize_images(src, size=(200, 200), filter='b/w', format='JPEG', ):
+    print(size)
     os.makedirs(f'{src}/temp', exist_ok=True)
     print(len(os.listdir(src)))
     for file in os.listdir(src):
         if file.endswith(('jpg', 'jpeg', 'png', 'gif')):
             img = Image.open(f'{src}/{file}')
-            img.resize(size, reducing_gap=2.0)
+            img = img.resize(size, reducing_gap=2.0)
             # apply filter
             if filter == 'b/w':
                 img = img.convert('L')

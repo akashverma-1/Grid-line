@@ -10,17 +10,49 @@
   <!-- Bootstrap CSS v5.2.1 -->
   <link href="/static/bootstrap.css" rel="stylesheet" />
   <link rel="stylesheet" href="style.css">
+  <!-- FontAwesome 6.2.0 CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+    integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <!-- (Optional) Use CSS or JS implementation -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/js/all.min.js"
+    integrity="sha512-naukR7I+Nk6gp7p5TMA4ycgfxaZBJ7MO5iC3Fp6ySQyKFHOGfpkSZkYVWV5R7u7cfAicxanwYQ5D1e17EfJcMA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+  <!-- video in the background -->
+  <style>
+    .bg-video {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      min-width: 100%;
+      min-height: 100%;
+      width: auto;
+      height: auto;
+      z-index: -100;
+      transform: translate(-50%, -50%);
+      background: rgba(0, 0, 0, 0.6);
+    }
+
+    .card {
+      height: 400px !important;
+    }
+  </style>
 </head>
 
-<body>
+<body data-bs-theme="dark">
   <header class="">
-    <nav class="navbar navbar-light bg-light fixed-top">
+    <nav class="navbar navbar-dark bg-dark fixed-top">
       <div class="container-fluid">
         <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
           aria-controls="offcanvasNavbar">
           <span class="navbar-toggler-icon"></span>
         </button>
-        <a class="navbar-brand" href="#">Logic Launchr</a>
+        <a class="navbar-brand mx-auto fs-1" href="#">
+          Logic Launchr
+          <i class="fas fa-rocket"></i>
+        </a>
         <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar"
           aria-labelledby="offcanvasNavbarLabel">
           <div class="offcanvas-header">
@@ -86,9 +118,9 @@
     </nav>
   </header>
   <main>
-
+    <video class="bg-video" src="/static/alphabets.mp4" autoplay muted loop></video>
     <div class="container my-5 pt-5">
-      <div class="row justify-content-center">
+      <div class="row justify-content-center align-items-center pt-5">
         <div class="col-lg-4 col-md-4 my-2">
           <div class="card">
             <div class="card-body px-5 pt-5">
@@ -97,6 +129,18 @@
             </div>
             <div class="card-footer d-grid p-0"><a href="/scraper/automation"
                 class="btn btn-outline-success">Automate</a></div>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-4 my-2">
+          <div class="card">
+            <div class="card-body px-5 pt-5">
+              <h4 class="card-title">Data Analysis</h4>
+              <p class="fs-7">Automated scripts to analyze large datasets, perform statistical analysis
+              </p>
+            </div>
+            <div class="card-footer d-grid p-0"><a href="/data/analysis" class="btn btn-outline-success">Automate</a>
+            </div>
           </div>
         </div>
         <div class="col-lg-4 col-md-4 my-2">
@@ -114,7 +158,9 @@
           <div class="card">
             <div class="card-body px-5 pt-5">
               <h4 class="card-title">Data Cleaning </h4>
-              <p class="fs-7">Develop scripts to clean and preprocess messy or unstructured data for analysis.
+              <p class="fs-7">Develop scripts to clean and preprocess messy data for analysis. Impute,
+                remove
+                duplicates, or standardize data.
               </p>
             </div>
             <div class="card-footer d-grid p-0"><a href="/data/cleaning/automation"
@@ -133,89 +179,7 @@
             </div>
           </div>
         </div>
-        
-        <div class="col-lg-4 col-md-4 my-2">
-          <div class="card">
-            <div class="card-body px-5 pt-5">
-              <h4 class="card-title">Email Sending </h4>
-              <p class="fs-7">Write scripts to send automated emails for notifications, reminders, or marketing
-                purposes.
-              </p>
-            </div>
-            <div class="card-footer d-grid p-0"><a href="/email/sending" class="btn btn-outline-success">Automate</a>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-4 col-md-4 my-2">
-          <div class="card">
-            <div class="card-body px-5 pt-5">
-              <h4 class="card-title">Task Scheduling </h4>
-              <p class="fs-7">Use Python libraries like 'schedule' or 'apscheduler' to schedule and execute tasks at
-                specific times.
-              </p>
-            </div>
-            <div class="card-footer d-grid p-0"><a href="/Text/processing" class="btn btn-outline-success">Automate</a>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-4 col-md-4 my-2">
-          <div class="card">
-            <div class="card-body px-5 pt-5">
-              <h4 class="card-title">Text Processing </h4>
-              <p class="fs-7">Develop scripts to perform tasks like text summarization, sentiment analysis, or keyword
-                extraction.
-              </p>
-            </div>
-            <div class="card-footer d-grid p-0"><a href="/web/testing" class="btn btn-outline-success">Automate</a>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-4 col-md-4 my-2">
-          <div class="card">
-            <div class="card-body px-5 pt-5">
-              <h4 class="card-title">Data Analysis</h4>
-              <p class="fs-7">Write scripts to analyze large datasets, perform statistical analysis, or generate
-                visualizations.
-              </p>
-            </div>
-            <div class="card-footer d-grid p-0"><a href="/data/analysis" class="btn btn-outline-success">Automate</a>
-            </div>
-          </div>
-        </div>
 
-        <div class="col-lg-4 col-md-4 my-2">
-          <div class="card">
-            <div class="card-body px-5 pt-5">
-              <h4 class="card-title">Database Maintenance </h4>
-              <p class="fs-7">Automate database tasks such as backup, restore, data migration, and schema management.
-              </p>
-            </div>
-            <div class="card-footer d-grid p-0"><a href="/social/mediaposting"
-                class="btn btn-outline-success">Automate</a></div>
-          </div>
-        </div>
-        <div class="col-lg-4 col-md-4 my-2">
-          <div class="card">
-            <div class="card-body px-5 pt-5">
-              <h4 class="card-title">Social Media Posting </h4>
-              <p class="fs-7">Develop scripts to automate posting content on social media platforms at scheduled times.
-              </p>
-            </div>
-            <div class="card-footer d-grid p-0"><a href="/image/processing" class="btn btn-outline-success">Automate</a>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-4 col-md-4 my-2">
-          <div class="card">
-            <div class="card-body px-5 pt-5">
-              <h4 class="card-title">PDF Manipulation </h4>
-              <p class="fs-7">Develop scripts to extract, merge, split, or manipulate PDF files for various purposes.
-              </p>
-            </div>
-            <div class="card-footer d-grid p-0"><a href="/natural/language/processing"
-                class="btn btn-outline-success">Automate</a></div>
-          </div>
-        </div>
         <div class="col-lg-4 col-md-4 my-2">
           <div class="card">
             <div class="card-body px-5 pt-5">
@@ -224,7 +188,7 @@
                 interactions.
               </p>
             </div>
-            <div class="card-footer d-grid p-0"><a href="" class="btn btn-outline-success">Automate</a></div>
+            <div class="card-footer d-grid p-0"><a href="/natural/language/processing" class="btn btn-outline-success">Automate</a></div>
           </div>
         </div>
       </div>

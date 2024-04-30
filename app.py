@@ -120,19 +120,15 @@ def image_processing():
         h = request.form.get('height', 200)
         format = request.form.get('format', 'png')
         filter = request.form.get('filter', 'b/w')
-        print(f'files: {files}')
+        if os.path.exists('static/task/image'):
+            shutil.rmtree('static/task/image')
+        os.makedirs('static/task/image', exist_ok=True)
         for file in files:
             if file:
-                if os.path.exists('static/image_task'):
-                    shutil.rmtree('static/image_task')
-                os.makedirs('static/image_task', exist_ok=True)
                 filename = secure_filename(file.filename)
-                file.save(os.path.join('static/image_task', filename))
-                print(f'File saved: {filename}')
-            else:
-                print(f'skip {file.filename}')
-        # result = resize_images('static/image_task', size=(int(w), int(h)), filter=filter, format=format)
-        # return send_file(result, as_attachment=True)
+                file.save(os.path.join('static/task/image', filename))
+        result = resize_images('static/task/image', size=(int(w), int(h)), filter=filter, format=format)
+        return send_file(result, as_attachment=True)
     return render_template('image_processing.html')
     
 @app.route('/database/maintenance/automation', methods=['GET', 'POST'])
