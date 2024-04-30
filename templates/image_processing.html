@@ -18,13 +18,24 @@
         integrity="sha512-naukR7I+Nk6gp7p5TMA4ycgfxaZBJ7MO5iC3Fp6ySQyKFHOGfpkSZkYVWV5R7u7cfAicxanwYQ5D1e17EfJcMA=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
+    <!-- FontAwesome 6.2.0 CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+        integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- (Optional) Use CSS or JS implementation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/js/all.min.js"
+        integrity="sha512-naukR7I+Nk6gp7p5TMA4ycgfxaZBJ7MO5iC3Fp6ySQyKFHOGfpkSZkYVWV5R7u7cfAicxanwYQ5D1e17EfJcMA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
     <style>
         @import "https://fonts.googleapis.com/css?family=Roboto";
 
         body {
             padding: 0;
             margin: 0;
-            background-color: #fff;
+
             font-family: "Roboto", sans-serif;
         }
 
@@ -125,81 +136,106 @@
 <body>
     <div class="container">
         <div class="row my-5">
-            <h3 class="text-center">Image Processing Automation</h3>
+            <div class="text-center mb-3">
+                <a href="/" class="btn btn-danger">Back to home</a>
+            </div>
+            <h3 class="text-center">
+                Image Processing Automation
+            </h3>
             <div class="col-md-8 mx-auto">
-                <form method="POST" action="">
+                <form method="POST" action="" enctype="multipart/form-data">
                     <div class="container">
                         <div id="app">
                             <step-navigation :steps="steps" :currentstep="currentstep">
                             </step-navigation>
-            
                             <div v-show="currentstep == 1">
                                 <h3>Step 1</h3>
-                                <div class="form-group">
-                                    <label for="title">Title</label>
-                                    <input type="text" name="title" class="form-control" aria-describedby="titleHelp"
-                                        placeholder="Enter task title">
-                                    <small id="titleHelp" class="form-text text-muted">We'll never share your email with anyone
-                                        else.</small>
-                                </div>
-                                <div class="form-group">
-                                    <label for="desc"> Description</label>
-                                    <div class="mb-3">
-                                        <label for="desc" class="form-label"></label>
-                                        <textarea class="form-control" name="desc" id="desc" rows="3"></textarea>
-                                    </div>
-                                    
+                                <div class="mb-3">
+                                    <label for="folder" class="form-label">Select a folder</label>
+                                    <input type="file" class="form-control form-control-lg" name="folder" id="folder"
+                                        placeholder="folder" aria-describedby="folderHelpId" multiple />
+                                    <div id="folderHelpId" class="form-text">Upload your folder containing images</div>
                                 </div>
                             </div>
-            
                             <div v-show="currentstep == 2">
                                 <h3>Step 2</h3>
-                                <div class="form-group">
-                                    <label for="select">Select a script</label>
-                                    <select class="form-control" name="select">
-                                        <option>Rename</option>
-                                        <option>Move</option>
-                                        <option>Organize</option>
-                                        <option>Delete</option>
+                                <!-- checkbox -->
+                                <div class="list-group">
+                                    <div class="row justify-content-start">
+                                        <div class="col-md-3">
+                                            <div class="mb-3">
+                                                <label for="w" class="form-label">Width (px)</label>
+                                                <input type="text" class="form-control form-control-lg" name="w" id="w"
+                                                    placeholder="required width" value="200" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="mb-3">
+                                                <label for="h" class="form-label">Height (px)</label>
+                                                <input type="text" class="form-control form-control-lg" name="h" id="h"
+                                                    placeholder="required height" value="200" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div v-show="currentstep == 3">
+                                <h3>Step 3</h3>
+
+                                <div class="mb-3">
+                                    <label for="filetype" class="form-label">Select Image filter</label>
+                                    <select class="form-select form-select-lg" name="filetype" id="filetype">
+                                        <option selected disabled>Select one</option>
+                                        <option value="b/w">Grayscale</option>
+                                        <option value="blur">Blur</option>
+                                        <option value="edges">Edge Detection</option>
+                                        <option value="contour">Contour</option>
+                                        <option value="emboss">Emboss</option>
+                                        <option value="sharpen">Sharpen</option>
+                                        <option value="smooth">Smooth</option>
+                                    </select>
+                                </div>
+
+                            </div>
+
+                            <div v-show="currentstep == 4">
+                                <h3>Step 4</h3>
+                                <p class="lead">Save format</p>
+                                <div class="mb-3">
+                                    <label for="format" class="form-label">Select Image format</label>
+                                    <select class="form-select form-select-lg" name="format" id="format">
+                                        <option selected disabled>Select one</option>
+                                        <option value="png">PNG</option>
+                                        <option value="jpg">JPG</option>
+                                        <option value="jpeg">JPEG</option>
+                                        <option value="webp">WEBP</option>
                                     </select>
                                 </div>
                             </div>
-            
-                            <div v-show="currentstep == 3">
-                                <h3>Step 3</h3>
-                                <div class="form-group">
-                                    <label for="target">Name</label>
-                                    <input class="form-control" name="target" ></textarea>
-                                </div>
-                                <div class="form-group">
-                                    <label for="target">Change</label>
-                                    <input class="form-control" name="target" ></textarea>
-                                </div>
-                                <div class="form-group">
-                                    <label for="target">Result</label>
-                                    <input class="form-control" name="target" ></textarea>
-                                </div>
-                                
+                            <div v-show="currentstep == 5">
+                                <h3>Step 5</h3>
+                                <p class="lead">Download</p>
                             </div>
-            
+
                             <step v-for="step in steps" :currentstep="currentstep" :key="step.id" :step="step"
                                 :stepcount="steps.length" @step-change="stepChanged">
                             </step>
-            
+
                             <script type="x-template" id="step-navigation-template">
                                 <ol class="step-indicator">
                                     <li v-for="step in steps" is="step-navigation-step" :key="step.id" :step="step" :currentstep="currentstep">
                                     </li>
                                 </ol>
                             </script>
-            
+
                             <script type="x-template" id="step-navigation-step-template">
                                 <li :class="indicatorclass">
                                     <div class="step"><i :class="step.icon_class"></i></div>
                                     <div class="caption hidden-xs hidden-sm">Step <span v-text="step.id"></span>: <span v-text="step.title"></span></div>
                                 </li>
                             </script>
-            
+
                             <script type="x-template" id="step-template">
                                 <div class="step-wrapper" :class="stepWrapperClass">
                                     <button type="button" class="btn btn-primary" @click="lastStep" :disabled="firststep">
@@ -208,8 +244,8 @@
                                     <button type="button" class="btn btn-primary" @click="nextStep" :disabled="laststep">
                                         Next
                                     </button>
-                                    <button type="submit" class="btn btn-primary" v-if="laststep">
-                                        Automate
+                                    <button type="submit" class="btn btn-success" v-if="laststep">
+                                        Download <i class="fa fa-download"></i>
                                     </button>
                                 </div>
                             </script>
@@ -217,6 +253,13 @@
                     </div>
                 </form>
             </div>
+            {% if message %}
+            <div class="alert alert-danger" role="alert">
+                {{ message }}
+            </div>
+            {% endif %}
+
+
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
@@ -293,18 +336,28 @@
                 steps: [
                     {
                         id: 1,
-                        title: "Automation",
-                        icon_class: "fa fa-user-circle"
+                        title: "Upload images",
+                        icon_class: "fa fa-upload"
                     },
                     {
                         id: 2,
-                        title: "Choose",
-                        icon_class: "fa fa-th-list"
+                        title: "Resize images",
+                        icon_class: "fa fa-expand"
                     },
                     {
                         id: 3,
-                        title: "Configure & Finish",
-                        icon_class: "fa fa-paper-plane"
+                        title: "Filter images",
+                        icon_class: "fa fa-filter"
+                    },
+                    {
+                        id: 4,
+                        title: "Select save format",
+                        icon_class: "fa fa-file"
+                    },
+                    {
+                        id: 5,
+                        title: "Download",
+                        icon_class: "fa fa-download"
                     }
                 ]
             },
